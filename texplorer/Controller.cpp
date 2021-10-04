@@ -36,8 +36,14 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 		case VK_BACK:
 			this->address->Chop();
 			break;
+		case VK_RETURN:
+			OutputDebugString(L"Enter!!!!");
+			break;
 		default:
-			this->address->AddInput(keyEvent.uChar.UnicodeChar);
+			if (keyEvent.uChar.UnicodeChar != L'\0')
+			{
+				this->address->AddInput(keyEvent.uChar.UnicodeChar);
+			}
 			break;
 		}
 	}

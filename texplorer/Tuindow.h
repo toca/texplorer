@@ -19,14 +19,14 @@ namespace tuindow
 		void Open();
 		void Close();
 
-		void Push(std::shared_ptr<Widget> widget);
+		void Put(std::shared_ptr<Widget> widget);
 
 		void AddKeyEventListener(KeyEventListener listener);
 	private:
 
 		std::thread loopThread;
 		std::unique_ptr<Screen> screen;
-		std::vector < std::shared_ptr<Widget> >widgets;
+		std::shared_ptr<Widget> widget;
 		std::vector <KeyEventListener> keyEventListeners;
 		bool stop;
 		void Read();

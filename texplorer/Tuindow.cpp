@@ -34,7 +34,7 @@ namespace tuindow
 	}
 
 
-	void Tuindow::Push(std::shared_ptr<Widget> widget)
+	void Tuindow::Put(std::shared_ptr<Widget> widget)
 	{
 		widget->SetRect({
 			0,
@@ -43,7 +43,7 @@ namespace tuindow
 			long(this->screen->Row())
 		});
 		widget->SetScreen(this->screen.get());
-		this->widgets.push_back(widget);
+		this->widget = widget;
 	}
 
 
@@ -55,15 +55,16 @@ namespace tuindow
 
 	void Tuindow::Read()
 	{
-		this->OnKeyEvent(this->screen->ReadInput());
+		auto inputs = this->screen->ReadInput();
+		for (int i = 0; i < inputs.size(); i++)
+		{
+			this->OnKeyEvent(inputs[i]);
+		}
 	}
 
 	void Tuindow::Render()
 	{
-		for (auto w : this->widgets)
-		{
-			w->Render();
-		}
+		this->widget->Render();
 		this->screen->Show();
 	}
 
