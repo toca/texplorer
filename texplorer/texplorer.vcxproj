@@ -146,11 +146,17 @@
     <ClCompile Include="Address.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="CurrentDir.cpp" />
+    <ClCompile Include="DirectoryItem.cpp" />
+    <ClCompile Include="DirectoryItemDate.cpp" />
+    <ClCompile Include="DirectoryItemSize.cpp" />
     <ClCompile Include="HorizontalBox.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="SelectableList.cpp" />
     <ClCompile Include="texplorer.cpp" />
     <ClCompile Include="Tuindow.cpp" />
+    <ClCompile Include="VerticalBox.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Widget.cpp" />
   </ItemGroup>
@@ -158,10 +164,16 @@
     <ClInclude Include="Address.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="CurrentDir.h" />
+    <ClInclude Include="DirectoryItem.h" />
+    <ClInclude Include="DirectoryItemDate.h" />
+    <ClInclude Include="DirectoryItemSize.h" />
     <ClInclude Include="HorizontalBox.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="SelectableList.h" />
     <ClInclude Include="Tuindow.h" />
+    <ClInclude Include="VerticalBox.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="Widget.h" />
   </ItemGroup>

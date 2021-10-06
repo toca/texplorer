@@ -1,14 +1,13 @@
 #pragma once
-#include <vector>
-#include <memory>
-#include <Windows.h>
 #include "Widget.h"
+#include <memory>
+#include <vector>
 
 namespace tuindow
 {
-    class HorizontalBox : public Widget
+    class VerticalBox : public Widget
     {
-    public:
+     public:
         void RenderImpl() override;
         void SetRectImpl(RECT rect) override;
         RECT GetRectImpl() override;

@@ -13,11 +13,9 @@ namespace tuindow
 	{
 	public:
 		explicit Label(const std::wstring& text);
-		explicit Label(const std::wstring& text, FixedSize size);
-		explicit Label(const std::wstring& text, Ratio ratio);
+		explicit Label(const std::wstring& text, Placement placement);
 		explicit Label(const std::wstring& text, std::shared_ptr<Style> style);
-		explicit Label(const std::wstring& text, FixedSize size, std::shared_ptr<Style> style);
-		explicit Label(const std::wstring& text, Ratio ratio, std::shared_ptr<Style> style);
+		explicit Label(const std::wstring& text, Placement placement, std::shared_ptr<Style> style);
 
 		void RenderImpl() override;
 		void SetRectImpl(RECT rect) override;
@@ -30,14 +28,14 @@ namespace tuindow
 
 		void Set(const std::wstring& text);
 		std::wstring Get();
+		void SetStyle(std::shared_ptr<Style> style);
 
 	private:
 		std::wstring text;
 		RECT rect = { 0, 0, 0, 0 };
 		Screen* screen = nullptr;
 		std::shared_ptr<Style> style;
-		FixedSize size = { 0, 0 };
-		Ratio ratio = { 1, 1 };
+		Placement placement = { 1, 1, false, false };
 		bool updated = true;
 	};
 

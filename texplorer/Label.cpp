@@ -8,16 +8,9 @@ tuindow::Label::Label(const std::wstring& text)
 {
 }
 
-tuindow::Label::Label(const std::wstring& text, FixedSize size)
+tuindow::Label::Label(const std::wstring& text, Placement placement)
     : text(text)
-    , size(size)
-    , style(Style::Default())
-{
-}
-
-tuindow::Label::Label(const std::wstring& text, Ratio ratio)
-    : text(text)
-    , ratio(ratio)
+    , placement(placement)
     , style(Style::Default())
 {
 }
@@ -29,19 +22,13 @@ tuindow::Label::Label(const std::wstring& text, std::shared_ptr<Style> style)
 {
 }
 
-tuindow::Label::Label(const std::wstring& text, FixedSize size, std::shared_ptr<Style> style)
+tuindow::Label::Label(const std::wstring& text, Placement placement, std::shared_ptr<Style> style)
     : text(text)
-    , size(size)
+    , placement(placement)
     , style(style)
 {
 }
 
-tuindow::Label::Label(const std::wstring& text, Ratio ratio, std::shared_ptr<Style> style)
-    : text(text)
-    , ratio(ratio)
-    , style(style)
-{
-}
 
 void tuindow::Label::RenderImpl()
 {
@@ -82,22 +69,22 @@ void tuindow::Label::SetScreenImpl(Screen* screen)
 
 uint16_t tuindow::Label::FixedWidthImpl()
 {
-    return this->size.width;
+    return tuindow::FixedWidth(this->placement);
 }
 
 uint16_t tuindow::Label::FixedHeightImpl()
 {
-    return this->size.height;
+    return tuindow::FixedHeight(this->placement);
 }
 
 uint32_t tuindow::Label::WidthRatioImpl()
 {
-    return this->ratio.h;
+    return tuindow::WidthRatio(this->placement);
 }
 
 uint32_t tuindow::Label::HeightRatioImpl()
 {
-    return this->ratio.v;
+    return tuindow::HeightRatio(this->placement);
 }
 
 void tuindow::Label::Set(const std::wstring& text)
@@ -109,4 +96,10 @@ void tuindow::Label::Set(const std::wstring& text)
 std::wstring tuindow::Label::Get()
 {
     return std::wstring();
+}
+
+void tuindow::Label::SetStyle(std::shared_ptr<Style> style)
+{
+    this->style = style;
+    this->updated = true;
 }

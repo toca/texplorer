@@ -6,6 +6,7 @@ class Address
 {
 public:
 	std::wstring Get();
+	void Set(const std::wstring& addr);
 	void AddInput(const wchar_t& input);
 	void Chop();
 	void SetOnChanged(std::function<void()> callback);

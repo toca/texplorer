@@ -16,9 +16,16 @@ namespace tuindow
 		this->loopThread = std::thread([this]() {
 			while (!this->stop)
 			{
-				this->Read();
-				this->Render();
-				Sleep(10);
+				try
+				{
+					this->Read();
+					this->Render();
+					Sleep(10);
+				}
+				catch (std::exception& ex)
+				{
+					fprintf(stderr, "Error!! %s\n", ex.what());
+				}
 			}
 		});
 	}

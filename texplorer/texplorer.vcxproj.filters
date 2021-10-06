@@ -24,15 +24,6 @@
     <ClCompile Include="Tuindow.cpp">
       <Filter>tuindow</Filter>
     </ClCompile>
-    <ClCompile Include="Screen.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Label.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Widget.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -43,24 +34,42 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Cell.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>tuindow</Filter>
     </ClCompile>
     <ClCompile Include="HorizontalBox.cpp">
+      <Filter>tuindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Label.cpp">
+      <Filter>tuindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>tuindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
+      <Filter>tuindow</Filter>
+    </ClCompile>
+    <ClCompile Include="CurrentDir.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectableList.cpp">
+      <Filter>tuindow</Filter>
+    </ClCompile>
+    <ClCompile Include="VerticalBox.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectoryItem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectoryItemSize.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectoryItemDate.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tuindow.h">
       <Filter>tuindow</Filter>
-    </ClInclude>
-    <ClInclude Include="Screen.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Label.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Widget.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -72,9 +81,36 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Cell.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>tuindow</Filter>
     </ClInclude>
     <ClInclude Include="HorizontalBox.h">
+      <Filter>tuindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Label.h">
+      <Filter>tuindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>tuindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>tuindow</Filter>
+    </ClInclude>
+    <ClInclude Include="CurrentDir.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectableList.h">
+      <Filter>tuindow</Filter>
+    </ClInclude>
+    <ClInclude Include="VerticalBox.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectoryItem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectoryItemSize.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectoryItemDate.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -74,11 +74,11 @@ namespace tuindow
 				auto style = c.Style();
 				if (*style == *prevStyle)
 				{
-					content += style->PreSequence() + c.GetChar();
+					content += /*style->PreSequence() +*/ c.GetChar();
 				}
 				else
 				{
-					content = style->PostSequence() + style->PreSequence() + c.GetChar();
+					content += style->PostSequence() + style->PreSequence() + c.GetChar();
 				}
 				prevStyle = style;
 			}
@@ -126,8 +126,12 @@ namespace tuindow
 	
 	void Screen::Put(const Cell& c, uint32_t x, uint32_t y)
 	{
-		this->lines[y][x] = c;
-		this->updated = true;
+		// TODO fix buffer size? ‘å‚«–Ú‚Éæ‚Á‚Ä‚¨‚¢‚ÄA•`‰æ‚Å‚«‚é‚È‚ç•`‰æA‚Í‚İ‚¾‚·‚È‚ç–³‹‚·‚é?
+		if (y < this->lines.size() && x < this->lines[y].size())
+		{
+			this->lines[y][x] = c;
+			this->updated = true;
+		}
 	}
 
 

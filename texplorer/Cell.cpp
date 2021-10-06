@@ -21,14 +21,14 @@ namespace tuindow
         return defaultStyle;
     }
 
-    Style Style::Background(Color color)
+    std::shared_ptr<Style> Style::Background(Color color)
     {
-        return Style(this->fg, color);
+        return std::make_shared<Style>(this->fg, color);
     }
 
-    Style Style::Foreground(Color color)
+    std::shared_ptr<Style> Style::Foreground(Color color)
     {
-        return Style(color, this->bg);
+        return std::make_shared<Style>(color, this->bg);
     }
 
     const std::wstring Style::PreSequence()
@@ -44,12 +44,15 @@ namespace tuindow
 
     bool Style::operator==(const Style& lhs)
     {
-        return this->bg == lhs.bg && this->fg == lhs.bg;
+        return this->bg == lhs.bg && this->fg == lhs.fg;
 
     }
 
     void Style::Init(const Color& fgColor, const Color& bgColor)
     {
+        this->fg = fgColor;
+        this->bg = bgColor;
+
         switch (fgColor)
         {
         case Color::BLACK:

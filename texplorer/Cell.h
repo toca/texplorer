@@ -15,8 +15,8 @@ namespace tuindow
 		Style();
 		Style(const Color& fgColor, const Color& bgColor);
 		static std::shared_ptr<Style> Default();
-		Style Background(Color color);
-		Style Foreground(Color color);
+		std::shared_ptr<Style> Background(Color color);
+		std::shared_ptr<Style> Foreground(Color color);
 		const std::wstring PreSequence();
 		const std::wstring PostSequence();
 		bool operator==(const Style& lhs);

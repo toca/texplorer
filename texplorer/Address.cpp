@@ -5,6 +5,12 @@ std::wstring Address::Get()
 	return this->data;
 }
 
+void Address::Set(const std::wstring& addr)
+{
+	this->data = addr;
+	this->OnChanged();
+}
+
 void Address::AddInput(const wchar_t& input)
 {
 	this->data += input;

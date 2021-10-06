@@ -30,22 +30,43 @@ void tuindow::HorizontalBox::SetScreenImpl(Screen* screen)
 
 uint16_t tuindow::HorizontalBox::FixedWidthImpl()
 {
-	return uint16_t();
+	return tuindow::FixedWidth(this->placement);
 }
 
 uint16_t tuindow::HorizontalBox::FixedHeightImpl()
 {
-	return uint16_t();
+	bool fixed = true;
+	uint32_t maxHeight = 0;
+	for (auto& child : this->children)
+	{
+		auto height = child->FixedHeight();
+		if (height == 0)
+		{
+			fixed = false;
+		}
+		else
+		{
+			maxHeight = max(maxHeight, height);
+		}
+	}
+	if (fixed)
+	{
+		return maxHeight;
+	}
+	else
+	{
+		return tuindow::FixedHeight(this->placement);
+	}
 }
 
 uint32_t tuindow::HorizontalBox::WidthRatioImpl()
 {
-	return uint32_t();
+	return tuindow::WidthRatio(this->placement);
 }
 
 uint32_t tuindow::HorizontalBox::HeightRatioImpl()
 {
-	return uint32_t();
+	return tuindow::HeightRatio(this->placement);
 }
 
 void tuindow::HorizontalBox::Push(std::shared_ptr<Widget> child)

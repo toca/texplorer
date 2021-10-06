@@ -1,20 +1,28 @@
 #include "Controller.h"
 #include "View.h"
 #include "Address.h"
+#include "CurrentDir.h"
 
 Controller::Controller()
 {
 	// create models
 	// add key event Listener self
 	this->address = std::make_shared<Address>();
-	this->view = std::make_unique<View>(this, address);
+	this->currentDir = std::make_shared<CurrentDir>();
+
+	this->view = std::make_unique<View>(this, address, currentDir);
 	this->address->SetOnChanged([this]() {
 		this->view->OnAddressChanged();
+	});
+	this->currentDir->SetOnChanged([this]() {
+		this->view->OnItemChanged();
+		this->address->Set(this->currentDir->Absolute());
 	});
 }
 
 void Controller::Start()
 {
+	this->currentDir->Change(L".");
 	this->view->Show();
 }
 
@@ -37,7 +45,13 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 			this->address->Chop();
 			break;
 		case VK_RETURN:
-			OutputDebugString(L"Enter!!!!");
+			this->currentDir->Change(this->address->Get());
+			break;
+		case VK_UP:
+			this->view->Up();
+			break;
+		case VK_DOWN:
+			this->view->Down();
 			break;
 		default:
 			if (keyEvent.uChar.UnicodeChar != L'\0')
