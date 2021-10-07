@@ -18,7 +18,7 @@ namespace tuindow
 		static auto inverted = std::make_shared<Style>(Color::BLACK, Color::WHITE);
 		for (int i = 0; i < this->list.size() && i < this->numDisplay; i++)
 		{
-			int itemIndex = i + this->displayBegin;
+			auto itemIndex = i + this->displayBegin;
 			this->labels[i]->Set(this->list[itemIndex]->toString());
 			if (itemIndex == this->selected)
 			{
@@ -76,7 +76,7 @@ namespace tuindow
 		this->selected = index;
 		this->updated = true;
 	}
-	int64_t SelectableList::Selected()
+	int SelectableList::Selected()
 	{
 		return this->selected;
 	}

@@ -36,9 +36,9 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 {
 	if (keyEvent.bKeyDown)
 	{
-		std::wstring msg(L"key event: ");
-		msg += std::to_wstring(keyEvent.wVirtualKeyCode) + L"\n";
-		::OutputDebugString(msg.c_str());
+		//std::wstring msg(L"key event: ");
+		//msg += std::to_wstring(keyEvent.wVirtualKeyCode) + L"\n";
+		//::OutputDebugString(msg.c_str());
 		switch (keyEvent.wVirtualKeyCode)
 		{
 		case VK_BACK:
@@ -52,6 +52,12 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 			break;
 		case VK_DOWN:
 			this->view->Down();
+			break;
+		case VK_LEFT:
+			this->currentDir->Up();
+			break;
+		case VK_RIGHT:
+			this->currentDir->Into(this->view->Selected());
 			break;
 		default:
 			if (keyEvent.uChar.UnicodeChar != L'\0')

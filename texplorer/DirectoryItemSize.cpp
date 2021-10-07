@@ -11,8 +11,8 @@ std::wstring DirectoryItemSize::toString()
 	//auto st = this->entry.status();
 	//auto ft = st.type();
 	//auto fp = st.permissions();
-
-	if (this->entry.is_directory())
+	auto r = this->entry.is_regular_file();
+	if (this->entry.is_directory() || !this->entry.is_regular_file())
 	{
 		return L"-----";
 	}

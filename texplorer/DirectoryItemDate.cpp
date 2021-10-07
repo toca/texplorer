@@ -21,7 +21,10 @@ std::shared_ptr<tuindow::Style> DirectoryItemDate::toStyle()
 std::wstring DirectoryItemDate::Timestamp(const std::wstring& fmt)
 {
 	static const auto EpochTimeBias = std::chrono::system_clock::now().time_since_epoch() - std::filesystem::file_time_type::clock::now().time_since_epoch();
-
+	if (!this->entry.exists())
+	{
+		return L"-NoData-";
+	}
 	auto lastWrite = this->entry.last_write_time();
 	auto sec = std::chrono::duration_cast<std::chrono::seconds>(lastWrite.time_since_epoch() + EpochTimeBias);
 	std::time_t t = sec.count();

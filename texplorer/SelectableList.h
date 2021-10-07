@@ -40,7 +40,7 @@ namespace tuindow
 
 		void Set(std::vector<std::shared_ptr<SelectableListItem>> list);
 		void Select(int index);
-		int64_t Selected();
+		int Selected();
 		void Up();
 		void Down();
 
@@ -53,7 +53,7 @@ namespace tuindow
 		Screen* screen = nullptr;
 		std::shared_ptr<Style> style;
 		Placement placement = { 1, 1, false, false };
-		int64_t selected = 0;
+		int selected = 0;
 		bool updated = true;
 		int64_t numDisplay = 0;
 		int64_t displayBegin = 0;

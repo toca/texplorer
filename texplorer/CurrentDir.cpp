@@ -18,6 +18,22 @@ void CurrentDir::Change(const std::filesystem::path cd)
 	}
 }
 
+void CurrentDir::Up()
+{
+	this->Change(this->cd.parent_path());
+}
+
+void CurrentDir::Into(int index)
+{
+	auto items = this->GetItems();
+	auto selected = items.at(index);
+	if (selected.is_directory())
+	{
+		this->Change(selected.path());
+	}
+}
+
+
 std::filesystem::path CurrentDir::Absolute()
 {
 	return this->cd;

@@ -62,10 +62,22 @@ namespace tuindow
 
 	void Tuindow::Read()
 	{
-		auto inputs = this->screen->ReadInput();
-		for (int i = 0; i < inputs.size(); i++)
+		auto screenEvent = this->screen->ReadInput();
+		if (screenEvent.HasSizeEvent)
 		{
-			this->OnKeyEvent(inputs[i]);
+			widget->SetRect({
+				0,
+				0,
+				long(this->screen->Col()),
+				long(this->screen->Row())
+			});
+		}
+		if (screenEvent.HasKeyEvent)
+		{
+			for (int i = 0; i < screenEvent.KeyEvents.size(); i++)
+			{
+				this->OnKeyEvent(screenEvent.KeyEvents[i]);
+			}
 		}
 	}
 

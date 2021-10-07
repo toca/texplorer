@@ -40,9 +40,9 @@ namespace tuindow
 		Cell();
 		Cell(wchar_t chara);
 		Cell(wchar_t chara, std::shared_ptr<Style> style);
-		wchar_t GetChar();
-		std::wstring GetText();
-		std::shared_ptr<Style> Style();
+		wchar_t GetChar() const;
+		std::wstring GetText() const;
+		std::shared_ptr<Style> Style() const;
 	private:
 		wchar_t chara;
 		std::shared_ptr<tuindow::Style> style;

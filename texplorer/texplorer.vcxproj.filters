@@ -113,5 +113,8 @@
     <ClInclude Include="DirectoryItemDate.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterWidth.h">
+      <Filter>tuindow</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

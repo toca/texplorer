@@ -22,9 +22,13 @@ View::View(Controller* controller, std::shared_ptr<Address> address, std::shared
 
 	// address bar
 	auto hbox = std::make_shared<tuindow::HorizontalBox>();
+	auto topLeft = std::make_shared<tuindow::Label>(L"„¬", tuindow::Placement{ 2, 1, true, true });
+	auto topRight = std::make_shared<tuindow::Label>(L"„­", tuindow::Placement{ 2, 1, true, true });
 	auto pathLabel = std::make_shared<tuindow::Label>(L"Path: ", tuindow::Placement{ 6, 1, true, true }, tuindow::Style::Default()->Foreground(tuindow::Color::GREEN));
+	hbox->Push(topLeft);
 	hbox->Push(pathLabel);
 	hbox->Push(this->addressLabel);
+	hbox->Push(topRight);
 
 	vbox->Push(hbox);
 
@@ -89,6 +93,11 @@ void View::Down()
 	this->items->Down();
 	this->sizes->Down();
 	this->dates->Down();
+}
+
+int View::Selected()
+{
+	return this->items->Selected();
 }
 
 void View::OnKeyEvent(KEY_EVENT_RECORD keyEvent)

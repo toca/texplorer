@@ -9,52 +9,23 @@
 
 //test
 #include <ctime>
+#include "CharacterWidth.h"
 
 HANDLE stopEvent;
 bool stop = false;
 int main()
 {
 	setlocale(LC_ALL, "");
-	//// test
-	//std::thread th([]() {
-	//	while (!stop) {
-	//		Sleep(10);
-	//		DWORD count = 0;
-	//			::GetNumberOfConsoleInputEvents(::GetStdHandle(STD_INPUT_HANDLE), &count);
-	//		if (!count)
-	//		{
-	//			continue;
-	//		}
-	//		INPUT_RECORD input{};
-	//		DWORD len = 1;
-	//		DWORD numOfEvents = 0;
-	//		::ReadConsoleInput(::GetStdHandle(STD_INPUT_HANDLE), &input, len, &numOfEvents);
-	//		// TODO resize event
-	//		if (input.EventType != KEY_EVENT && input.EventType != MOUSE_EVENT)
-	//		{
-	//			continue;
-	//		}
-	//		if (input.EventType == KEY_EVENT)
-	//		{
-	//			OutputDebugString(L"input: ");
-	//			OutputDebugString(std::to_wstring(input.Event.KeyEvent.wVirtualKeyCode).c_str());
-	//			OutputDebugString(L"\n");
-	//		}
-	//	}
-	//});
-	////wchar_t buf[256];
-	////wscanf_s(L"%s", buf, 256);
-	//////Sleep(30000);
 
-	//wchar_t buffer[256];
-	//ZeroMemory(&buffer, 256);
-	//DWORD res = 0;
-	//ReadConsole(GetStdHandle(STD_INPUT_HANDLE), buffer, 256, &res, nullptr);
-	//wprintf(L"%s\n", buffer);
-	//Sleep(5000);
-	//stop = true;
-	//th.join();
+	//auto a = tuindow::CharactorWidth(L'あ');
+	//auto b = tuindow::CharactorWidth(L'ん');
+	//auto c = tuindow::CharactorWidth(L'a');
+	//auto d = tuindow::CharactorWidth(L'Z');
+	//auto e = tuindow::CharactorWidth(L' ');
+	//auto f = tuindow::CharactorWidth(L'\a');
+	//auto g = tuindow::CharactorWidth(L'☺');
 	//return 0;
+
 
 	// TODO refactor
 	stopEvent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);

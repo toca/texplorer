@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Address.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="CharacterWidth.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="CurrentDir.h" />
     <ClInclude Include="DirectoryItem.h" />

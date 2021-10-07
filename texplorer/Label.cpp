@@ -38,15 +38,15 @@ void tuindow::Label::RenderImpl()
     }
     uint32_t y = this->rect.top;
     size_t i = 0;
-    for (uint32_t x = this->rect.left; long(x) < this->rect.right; x++)
+    for (uint32_t x = this->rect.left; long(x) < this->rect.right;)
     {
         if (i < this->text.size())
         {
-            this->screen->Put(Cell(this->text[i++], this->style), x, y);
+            x += this->screen->Put(Cell(this->text[i++], this->style), x, y);
         }
         else
         {
-            this->screen->Put(Cell(L' ', this->style), x, y);
+            x += this->screen->Put(Cell(L' ', this->style), x, y);
         }
     }
     this->updated = false;
@@ -55,6 +55,7 @@ void tuindow::Label::RenderImpl()
 void tuindow::Label::SetRectImpl(RECT rect)
 {
     this->rect = rect;
+    this->updated = true;
 }
 
 RECT tuindow::Label::GetRectImpl()

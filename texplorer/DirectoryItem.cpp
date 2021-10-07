@@ -22,12 +22,16 @@ std::wstring DirectoryItem::toString()
 std::shared_ptr<tuindow::Style> DirectoryItem::toStyle()
 {
     auto static dirStyle = tuindow::Style::Default()->Foreground(tuindow::Color::CYAN);
+    auto static linkStyle = tuindow::Style::Default()->Foreground(tuindow::Color::BLUE);
+    if (this->entry._Is_symlink_or_junction())
+    {
+        return linkStyle;
+    }
     if (this->entry.is_directory())
     {
         return dirStyle;
     }
-    else
-    {
-        return tuindow::Style::Default();
-    }
+
+        
+    return tuindow::Style::Default();
 }

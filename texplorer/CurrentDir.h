@@ -6,6 +6,8 @@ class CurrentDir
 {
 public:
 	void Change(const std::filesystem::path cd);
+	void Up();
+	void Into(int index);
 	std::filesystem::path Absolute();
 	std::vector<std::filesystem::directory_entry> GetItems();
 	void SetOnChanged(std::function<void()> callback);

@@ -137,12 +137,12 @@ namespace tuindow
     {
     }
 
-    wchar_t Cell::GetChar() 
+    wchar_t Cell::GetChar() const
     {
         return this->chara;
     }
 
-    std::wstring Cell::GetText()
+    std::wstring Cell::GetText() const
     {
         // fg sequence + bg sequence + character + terminate sequence
         // =     5     +     5       +     1     +      5
@@ -153,7 +153,8 @@ namespace tuindow
         wcscat_s(buf, 16, this->style->PostSequence().c_str());
         return std::wstring(buf);
     }
-    std::shared_ptr<Style> Cell::Style()
+
+    std::shared_ptr<Style> Cell::Style() const
     {
         return this->style;
     }

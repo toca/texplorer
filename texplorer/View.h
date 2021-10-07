@@ -24,6 +24,8 @@ public:
 
 	void Up();
 	void Down();
+
+	int Selected();
 private:
 	Controller* controller;
 	std::unique_ptr<tuindow::Tuindow> tuindow;
