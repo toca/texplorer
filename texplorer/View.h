@@ -25,6 +25,7 @@ public:
 	void Up();
 	void Down();
 
+	void Select(int index);
 	int Selected();
 private:
 	Controller* controller;

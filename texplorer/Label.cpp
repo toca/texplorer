@@ -38,6 +38,7 @@ void tuindow::Label::RenderImpl()
     }
     uint32_t y = this->rect.top;
     size_t i = 0;
+    // Вс
     for (uint32_t x = this->rect.left; long(x) < this->rect.right;)
     {
         if (i < this->text.size())

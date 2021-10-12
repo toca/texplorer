@@ -13,7 +13,7 @@ namespace tuindow
 	void Tuindow::Open()
 	{
 		this->stop = false;
-		this->loopThread = std::thread([this]() {
+		//this->loopThread = std::thread([this]() {
 			while (!this->stop)
 			{
 				try
@@ -27,17 +27,23 @@ namespace tuindow
 					fprintf(stderr, "Error!! %s\n", ex.what());
 				}
 			}
-		});
+			this->screen->Close();
+		//});
 	}
 
 
 	void Tuindow::Close()
 	{
 		this->stop = true;
-		if (this->loopThread.joinable())
-		{
-			this->loopThread.join();
-		}
+		//if (this->loopThread.joinable())
+		//{
+		//	this->loopThread.join();
+		//}
+	}
+
+	void Tuindow::SetCursor(short x, short y)
+	{
+		this->screen->SetCursor(x, y);
 	}
 
 

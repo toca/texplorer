@@ -18,6 +18,7 @@ namespace tuindow
 		Tuindow();
 		void Open();
 		void Close();
+		void SetCursor(short x, short y);
 
 		void Put(std::shared_ptr<Widget> widget);
 

@@ -34,7 +34,7 @@ namespace tuindow
 		}
 		RECT GetRect()
 		{
-			this->GetRectImpl();
+			return this->GetRectImpl();
 		}
 		void SetScreen(Screen* screen)
 		{

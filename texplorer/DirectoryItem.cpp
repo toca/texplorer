@@ -31,7 +31,6 @@ std::shared_ptr<tuindow::Style> DirectoryItem::toStyle()
     {
         return dirStyle;
     }
-
         
     return tuindow::Style::Default();
 }

@@ -144,7 +144,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Address.cpp" />
+    <ClCompile Include="Border.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="CharacterWidth.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="CurrentDir.cpp" />
     <ClCompile Include="DirectoryItem.cpp" />
@@ -162,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Address.h" />
+    <ClInclude Include="Border.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CharacterWidth.h" />
     <ClInclude Include="Controller.h" />

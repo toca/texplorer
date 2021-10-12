@@ -66,6 +66,12 @@
     <ClCompile Include="DirectoryItemDate.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Border.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterWidth.cpp">
+      <Filter>tuindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tuindow.h">
@@ -115,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="CharacterWidth.h">
       <Filter>tuindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Border.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

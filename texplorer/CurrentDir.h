@@ -11,6 +11,7 @@ public:
 	std::filesystem::path Absolute();
 	std::vector<std::filesystem::directory_entry> GetItems();
 	void SetOnChanged(std::function<void()> callback);
+	void SyncProcCurrentDir();
 private:
 	std::filesystem::path cd;
 	std::function<void()> callback;

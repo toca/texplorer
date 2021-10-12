@@ -11,6 +11,15 @@ void CurrentDir::Change(const std::filesystem::path cd)
 		::OutputDebugString(L"Not a directory\n");
 		return;
 	}
+	try 
+	{
+		auto it = std::filesystem::directory_iterator(cd);
+	}
+	catch (std::exception& ex)
+	{
+		::OutputDebugString(L"Permission denied\n");
+		return;
+	}
 	this->cd = std::filesystem::absolute(cd);
 	if (this->callback)
 	{
@@ -42,7 +51,7 @@ std::filesystem::path CurrentDir::Absolute()
 std::vector<std::filesystem::directory_entry> CurrentDir::GetItems()
 {
 	std::vector<std::filesystem::directory_entry> result;
-	for (auto entry : std::filesystem::directory_iterator(cd))
+	for (auto entry : std::filesystem::directory_iterator(this->cd))
 	{
 		result.push_back(entry);
 		::OutputDebugString(entry.path().filename().c_str());
@@ -54,4 +63,9 @@ std::vector<std::filesystem::directory_entry> CurrentDir::GetItems()
 void CurrentDir::SetOnChanged(std::function<void()> callback)
 {
 	this->callback = callback;
+}
+
+void CurrentDir::SyncProcCurrentDir()
+{
+	::SetCurrentDirectoryW(this->cd.c_str());
 }

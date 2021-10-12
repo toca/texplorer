@@ -1,4 +1,4 @@
-#include "View.h"
+ï»¿#include "View.h"
 #include "Controller.h"
 #include "Address.h"
 #include "CurrentDir.h"
@@ -9,6 +9,8 @@
 #include "DirectoryItem.h"
 #include "DirectoryItemSize.h"
 #include "DirectoryItemDate.h"
+#include "Border.h"
+#include "CharacterWidth.h"
 
 View::View(Controller* controller, std::shared_ptr<Address> address, std::shared_ptr<CurrentDir> dir)
 	:controller(controller)
@@ -22,8 +24,8 @@ View::View(Controller* controller, std::shared_ptr<Address> address, std::shared
 
 	// address bar
 	auto hbox = std::make_shared<tuindow::HorizontalBox>();
-	auto topLeft = std::make_shared<tuindow::Label>(L"„¬", tuindow::Placement{ 2, 1, true, true });
-	auto topRight = std::make_shared<tuindow::Label>(L"„­", tuindow::Placement{ 2, 1, true, true });
+	auto topLeft = std::make_shared<tuindow::Label>(L"+ ", tuindow::Placement{ 2, 1, true, true });
+	auto topRight = std::make_shared<tuindow::Label>(L" +", tuindow::Placement{ 2, 1, true, true });
 	auto pathLabel = std::make_shared<tuindow::Label>(L"Path: ", tuindow::Placement{ 6, 1, true, true }, tuindow::Style::Default()->Foreground(tuindow::Color::GREEN));
 	hbox->Push(topLeft);
 	hbox->Push(pathLabel);
@@ -33,15 +35,23 @@ View::View(Controller* controller, std::shared_ptr<Address> address, std::shared
 	vbox->Push(hbox);
 
 	// item list
+ 	auto border  = std::make_shared<tuindow::Border>(L"|", L"", L"|", L"-", L"", L"", L"+", L"+");
 	auto itemBox = std::make_shared<tuindow::HorizontalBox>();
+	border->Put(itemBox);
 	this->items = std::make_shared<tuindow::SelectableList>();
 	itemBox->Push(this->items);
 	this->sizes = std::make_shared<tuindow::SelectableList>(tuindow::Placement{ 8, 1, true, true });
 	itemBox->Push(this->sizes);
 	this->dates = std::make_shared<tuindow::SelectableList>(tuindow::Placement{ 20, 1, true, true });
 	itemBox->Push(this->dates);
-	vbox->Push(itemBox);
+	vbox->Push(border);
 
+	auto man = std::make_shared<tuindow::Label>(
+		L"Select:[â†‘â†“] UpDir:[â†] IntoDir:[â†’] RUN CMD[Esc] Terminate:[^C]", 
+		tuindow::Placement{ 1, 1, false, true }, 
+		tuindow::Style::Default()->Foreground(tuindow::Color::GREEN)
+	);
+	vbox->Push(man);
 
 
 	this->tuindow->Put(vbox);
@@ -62,7 +72,11 @@ void View::Close()
 
 void View::OnAddressChanged()
 {
-	this->addressLabel->Set(this->address->Get());
+	auto addr = this->address->Get();
+	auto len = tuindow::Util::TextWidth(addr);;
+	auto rect = this->addressLabel->GetRect();
+	this->tuindow->SetCursor(rect.left + len, rect.top);
+	this->addressLabel->Set(addr);
 }
 
 void View::OnItemChanged()
@@ -98,6 +112,13 @@ void View::Down()
 int View::Selected()
 {
 	return this->items->Selected();
+}
+
+void View::Select(int index)
+{
+	this->items->Select(index);
+	this->sizes->Select(index);
+	this->dates->Select(index);
 }
 
 void View::OnKeyEvent(KEY_EVENT_RECORD keyEvent)

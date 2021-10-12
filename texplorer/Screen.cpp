@@ -30,6 +30,7 @@ namespace tuindow
 	{
 		//// hide cursor
 		HANDLE stdOutHandle = ::GetStdHandle(STD_OUTPUT_HANDLE);
+		this->stdouth = stdOutHandle;
 		//CONSOLE_CURSOR_INFO info{};
 		//::GetConsoleCursorInfo(stdOutHandle, &info);
 		//info.bVisible = FALSE;
@@ -83,6 +84,14 @@ namespace tuindow
 
 	}
 
+	void Screen::Close()
+	{
+		//::SetConsoleActiveScreenBuffer(::GetStdHandle(STD_OUTPUT_HANDLE));
+		::SetConsoleActiveScreenBuffer(this->stdouth);
+		::CloseHandle(this->screenBuffers[0]);
+		::CloseHandle(this->screenBuffers[1]);
+	}
+
 
 	void Screen::Show()
 	{
@@ -93,7 +102,8 @@ namespace tuindow
 		this->updated = false;
 
 		std::wstring content(L"");
-		std::shared_ptr<Style> prevStyle = std::make_shared<Style>(tuindow::Color::NONE, tuindow::Color::NONE);
+		auto plain = std::make_shared<Style>(tuindow::Color::NONE, tuindow::Color::NONE);
+		std::shared_ptr<Style> prevStyle = plain;
 		for (auto& line : this->lines)
 		{
 			for (int c = 0; c < line.size();)
@@ -106,12 +116,14 @@ namespace tuindow
 				}
 				else
 				{
+					//content += character;
 					content += style->PostSequence() + style->PreSequence() + character;
 				}
 				c += Util::CharacterWidth(character);
 				prevStyle = style;
-
 			}
+			//content += L"\033[0m";
+			//prevStyle = plain;
 		}
 
 		HANDLE back = this->screenBuffers[this->screenIndex ^ 1];
@@ -120,7 +132,7 @@ namespace tuindow
 		// reset cursor position
 		::SetConsoleCursorPosition(back, { 0, 0 });
 		::WriteConsoleW(back, content.data(), content.size(), &written, nullptr);
-		::SetConsoleCursorPosition(back, { 1, 10 });
+		::SetConsoleCursorPosition(back, this->cursorPos);
 		::SetConsoleActiveScreenBuffer(back);
 		this->screenIndex ^= 1;
 
@@ -174,17 +186,17 @@ namespace tuindow
 				result.KeyEvents.push_back(inputs[i].Event.KeyEvent);
 			}
 			
-			if (inputs[i].EventType == WINDOW_BUFFER_SIZE_EVENT)
-			{
-				auto newSize = inputs[i].Event.WindowBufferSizeEvent.dwSize;
-				::OutputDebugString(format(L"newSize: %d, %d\n", newSize.X, newSize.Y).c_str());
-				if (this->windowSize.X != newSize.X || this->windowSize.Y != newSize.Y)
-				{
-					//this->OnSizeChanged(newSize);
-					//result.HasSizeEvent = true;
-					//result.NewSize = newSize;
-				}
-			}
+			//if (inputs[i].EventType == WINDOW_BUFFER_SIZE_EVENT)
+			//{
+			//	auto newSize = inputs[i].Event.WindowBufferSizeEvent.dwSize;
+			//	::OutputDebugString(format(L"newSize: %d, %d\n", newSize.X, newSize.Y).c_str());
+			//	if (this->windowSize.X != newSize.X || this->windowSize.Y != newSize.Y)
+			//	{
+			//		//this->OnSizeChanged(newSize);
+			//		//result.HasSizeEvent = true;
+			//		//result.NewSize = newSize;
+			//	}
+			//}
 		}
 		return result;
 	}
@@ -199,6 +211,11 @@ namespace tuindow
 			this->updated = true;
 		}
 		return Util::CharacterWidth(c.GetChar());
+	}
+
+	void Screen::SetCursor(short x, short y)
+	{
+		this->cursorPos = { x, y };
 	}
 
 

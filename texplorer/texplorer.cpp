@@ -9,14 +9,21 @@
 
 //test
 #include <ctime>
+#include <iostream>
 #include "CharacterWidth.h"
 
-HANDLE stopEvent;
-bool stop = false;
+//HANDLE stopEvent;
+bool breaked = false;
+Controller controller;
+
 int main()
 {
 	setlocale(LC_ALL, "");
 
+	//printf("│abc┌def\n");
+	//std::wstring s = L"\U0001F491\n";
+	//std::wcout << s << std::endl;
+	//return 0;
 	//auto a = tuindow::CharactorWidth(L'あ');
 	//auto b = tuindow::CharactorWidth(L'ん');
 	//auto c = tuindow::CharactorWidth(L'a');
@@ -27,23 +34,15 @@ int main()
 	//return 0;
 
 
-	// TODO refactor
-	stopEvent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
-	if (!stopEvent)
-	{
-		DWORD lastErr = ::GetLastError();
-		std::system_error err(std::error_code(lastErr, std::system_category()), "failed to CreateEvent");
-		printf("%s\n", err.what());
-		return 1;
-	}
 	::SetConsoleCtrlHandler([](DWORD event) -> BOOL {
 		try
 		{
 			if (event == CTRL_C_EVENT)
 			{
 				printf("Break\n");
-				::SetEvent(stopEvent);
-				stop = true;
+				//::SetEvent(stopEvent);
+				controller.Stop();
+				breaked = true;
 				return TRUE;
 			}
 		}
@@ -52,36 +51,44 @@ int main()
 			printf("Error: %s\n", e.what());
 		}
 		return FALSE;
-	}, TRUE);
+		}, TRUE
+	);
 
-
-
-	/*tuindow::Tuindow t;
-	auto label = std::make_shared<tuindow::Label>(L"hello world");
-	t.Push(label);*/
-	/*std::thread th = std::thread([&label]() {
-		while (!stop)
-		{
-			time_t rawtime = time(nullptr);
-			tm timeinfo{};
-			localtime_s(&timeinfo, &rawtime);
-			wchar_t buffer[256];
-
-			::wcsftime(buffer, 256, L"%H:%M:%S", &timeinfo);
-			Sleep(100);
-			size_t wcsftime(
-				wchar_t* strDest,
-				size_t maxsize,
-				const wchar_t* format,
-				const struct tm* timeptr
-			);
-
-			label->Set(buffer);
-		}
-	});*/
-
-	Controller controller;
 	controller.Start();
-	::WaitForSingleObject(stopEvent, INFINITE);
+
+	if (!breaked)
+	{
+		STARTUPINFO startupInfo{};
+		//::GetStartupInfo(&startupInfo);
+		PROCESS_INFORMATION procInfo{};
+		std::wstring params = L"cmd.exe";
+		std::wstring cd = controller.GetCurrentDir();
+
+		auto createProcResult = ::CreateProcessW(
+			nullptr,
+			const_cast<LPWSTR>(params.c_str()),
+			nullptr,
+			nullptr,
+			FALSE,
+			CREATE_NEW_PROCESS_GROUP,
+			nullptr,
+			cd.c_str(),
+			&startupInfo,
+			&procInfo
+		);
+		if (!createProcResult)
+		{
+			auto lastErr = ::GetLastError();
+			printf("lastError:%d\n", lastErr);
+			controller.Stop();
+			return 1;
+		}
+
+		WaitForSingleObject(procInfo.hProcess, INFINITE);
+		CloseHandle(procInfo.hProcess);
+		CloseHandle(procInfo.hThread);
+	}
+
 	controller.Stop();
+	return 0;
 }

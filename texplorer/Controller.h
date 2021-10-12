@@ -16,6 +16,7 @@ public:
 	void Start();
 	void Stop();
 	void OnKeyEvent(KEY_EVENT_RECORD keyEvent);
+	std::wstring GetCurrentDir();
 private:
 	std::unique_ptr<View> view;
 	std::shared_ptr<Address> address;

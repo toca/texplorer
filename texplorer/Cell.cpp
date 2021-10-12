@@ -59,7 +59,7 @@ namespace tuindow
             this->pre = L"\033[30m";
             break;
         case Color::RED:
-            this->pre =  L"\033[31m";
+            this->pre = L"\033[31m";
             break;
         case Color::GREEN:
             this->pre = L"\033[32m";

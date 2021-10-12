@@ -55,9 +55,15 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 			break;
 		case VK_LEFT:
 			this->currentDir->Up();
+			this->view->Select(0);
 			break;
 		case VK_RIGHT:
 			this->currentDir->Into(this->view->Selected());
+			this->view->Select(0); this->view->Select(0);
+			break;
+		case VK_ESCAPE:
+			this->currentDir->SyncProcCurrentDir();
+			this->Stop();
 			break;
 		default:
 			if (keyEvent.uChar.UnicodeChar != L'\0')
@@ -72,4 +78,9 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 	//{
 	//	listener(keyEvent);
 	//}
+}
+
+std::wstring Controller::GetCurrentDir()
+{
+	return this->currentDir->Absolute().wstring();
 }
