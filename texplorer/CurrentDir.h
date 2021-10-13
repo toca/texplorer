@@ -10,8 +10,8 @@ public:
 	void Into(int index);
 	std::filesystem::path Absolute();
 	std::vector<std::filesystem::directory_entry> GetItems();
+	std::filesystem::path Get(int index);
 	void SetOnChanged(std::function<void()> callback);
-	void SyncProcCurrentDir();
 private:
 	std::filesystem::path cd;
 	std::function<void()> callback;

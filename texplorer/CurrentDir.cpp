@@ -60,12 +60,13 @@ std::vector<std::filesystem::directory_entry> CurrentDir::GetItems()
 	return result;
 }
 
+std::filesystem::path CurrentDir::Get(int index)
+{
+	return this->GetItems()[index].path();
+}
+
 void CurrentDir::SetOnChanged(std::function<void()> callback)
 {
 	this->callback = callback;
 }
 
-void CurrentDir::SyncProcCurrentDir()
-{
-	::SetCurrentDirectoryW(this->cd.c_str());
-}

@@ -62,13 +62,26 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 			this->view->Select(0); this->view->Select(0);
 			break;
 		case VK_ESCAPE:
-			this->currentDir->SyncProcCurrentDir();
 			this->Stop();
 			break;
+		case VK_TAB:
+		{
+			this->address->Complete();
+			break;
+		}
 		default:
 			if (keyEvent.uChar.UnicodeChar != L'\0')
 			{
 				this->address->AddInput(keyEvent.uChar.UnicodeChar);
+			}
+			if (keyEvent.wVirtualScanCode == 0x18 /*o*/
+				&& (keyEvent.dwControlKeyState & LEFT_CTRL_PRESSED) || (keyEvent.dwControlKeyState & RIGHT_CTRL_PRESSED))
+			{
+				// if ShellExecute directory then conhost will hide by vs code
+				auto path = this->currentDir->Get(this->view->Selected());
+				std::wstring params = L"/c start " + path.wstring();
+				auto result = ::ShellExecute(nullptr, L"open", L"cmd.exe", params.c_str(), nullptr, SW_HIDE);
+				auto le = GetLastError();
 			}
 			break;
 		}

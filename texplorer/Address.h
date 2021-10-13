@@ -10,6 +10,7 @@ public:
 	void AddInput(const wchar_t& input);
 	void Chop();
 	void SetOnChanged(std::function<void()> callback);
+	void Complete();
 private:
 	std::wstring data;
 	std::function<void()> callback;
