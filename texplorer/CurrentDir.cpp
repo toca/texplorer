@@ -1,5 +1,6 @@
 #include "CurrentDir.h"
 #include <filesystem>
+#include <algorithm>
 
 //test
 #include <Windows.h>
@@ -54,8 +55,43 @@ std::vector<std::filesystem::directory_entry> CurrentDir::GetItems()
 	for (auto entry : std::filesystem::directory_iterator(this->cd))
 	{
 		result.push_back(entry);
-		::OutputDebugString(entry.path().filename().c_str());
-		::OutputDebugString(L"\n");
+		//::OutputDebugString(entry.path().filename().c_str());
+		//::OutputDebugString(L"\n");
+	}
+
+	auto order = this->asc;
+	switch (this->orderBy)
+	{
+	case OrderBy::NAME:
+		std::sort(result.begin(), result.end(), [order](const std::filesystem::directory_entry& lhs, const std::filesystem::directory_entry& rhs) {
+			if (order) {
+				return lhs.path().filename() < rhs.path().filename();
+			}
+			else {
+				return lhs.path().filename() > rhs.path().filename();
+			}
+		});
+		break;
+	case OrderBy::DATE:
+		std::sort(result.begin(), result.end(), [order](const std::filesystem::directory_entry& lhs, const std::filesystem::directory_entry& rhs) {
+			if (order) {
+				return lhs.last_write_time() < rhs.last_write_time();
+			}
+			else {
+				return lhs.last_write_time() > rhs.last_write_time();
+			}
+		});
+		break;
+	case OrderBy::SIZE:
+		std::sort(result.begin(), result.end(), [order](const std::filesystem::directory_entry& lhs, const std::filesystem::directory_entry& rhs) {
+			if (order) {
+				return lhs.file_size() < rhs.file_size();
+			}
+			else {
+				return lhs.file_size() > rhs.file_size();
+			}
+		});
+		break;
 	}
 	return result;
 }
@@ -68,5 +104,28 @@ std::filesystem::path CurrentDir::Get(int index)
 void CurrentDir::SetOnChanged(std::function<void()> callback)
 {
 	this->callback = callback;
+}
+
+void CurrentDir::SortName()
+{
+	this->Sort(OrderBy::NAME);
+}
+void CurrentDir::SortDate()
+{
+	this->Sort(OrderBy::DATE);
+}
+void CurrentDir::SortSize()
+{
+	this->Sort(OrderBy::SIZE);
+}
+
+void CurrentDir::Sort(OrderBy by)
+{
+	this->asc = !this->asc;
+	this->orderBy = by;
+	if (this->callback)
+	{
+		this->callback();
+	}
 }
 

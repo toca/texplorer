@@ -47,7 +47,7 @@ View::View(Controller* controller, std::shared_ptr<Address> address, std::shared
 	vbox->Push(border);
 
 	auto man = std::make_shared<tuindow::Label>(
-		L"Select:[↑↓] UpDir:[←] IntoDir:[→] RUN CMD:[Esc] Terminate:[^C] Open:[^O] Sort-Name:[^N]-Date:[^D]-Size:[^S]", 
+		L"Select[⇅ ] UpDir[←] IntoDir[→] RUN CMD[Esc] Open[^O] SortName[^N] SortSize[^S] SortDate:[^D] End:[^C]", 
 		tuindow::Placement{ 1, 1, false, true }, 
 		tuindow::Style::Default()->Foreground(tuindow::Color::GREEN)
 	);
