@@ -26,6 +26,11 @@ namespace tuindow
 		child->Render();
 	}
 
+	void Border::RefreshImpl()
+	{
+		this->child->Refresh();
+	}
+
 	void Border::SetRectImpl(RECT rect)
 	{
 		this->rect = rect;
@@ -95,11 +100,11 @@ namespace tuindow
 		{
 			if (!this->left.empty())
 			{
-				auto border = std::make_shared<Label>(this->left);
+				auto border = std::make_shared<Label>(this->left + L" ");
 				border->SetRect({
 					this->rect.left,
 					this->rect.top + i,
-					this->rect.left + Util::CharacterWidth(this->left.front()),
+					this->rect.left + padding + Util::CharacterWidth(this->left.front()),
 					this->rect.top + i + 1
 				});
 				border->SetScreen(this->screen);
@@ -108,9 +113,9 @@ namespace tuindow
 
 			if (!this->right.empty())
 			{
-				auto border = std::make_shared<Label>(this->right);
+				auto border = std::make_shared<Label>(L" " + this->right);
 				border->SetRect({
-					this->rect.right - Util::CharacterWidth(this->right.front()),
+					this->rect.right - Util::CharacterWidth(this->right.front()) - padding,
 					this->rect.top + i,
 					this->rect.right,
 					this->rect.top + i + 1

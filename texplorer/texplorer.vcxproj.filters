@@ -72,6 +72,9 @@
     <ClCompile Include="CharacterWidth.cpp">
       <Filter>tuindow</Filter>
     </ClCompile>
+    <ClCompile Include="Notification.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tuindow.h">
@@ -123,6 +126,9 @@
       <Filter>tuindow</Filter>
     </ClInclude>
     <ClInclude Include="Border.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Notification.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

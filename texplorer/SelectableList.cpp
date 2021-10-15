@@ -32,6 +32,11 @@ namespace tuindow
 		}
 	}
 
+	void SelectableList::RefreshImpl()
+	{
+		this->updated = true;
+	}
+
 	void SelectableList::SetRectImpl(RECT rect)
 	{
 		this->rect = rect;

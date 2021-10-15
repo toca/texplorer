@@ -1,16 +1,16 @@
 #include "CurrentDir.h"
 #include <filesystem>
 #include <algorithm>
-
-//test
 #include <Windows.h>
+
+#include "CharacterWidth.h"
 
 void CurrentDir::Change(const std::filesystem::path cd)
 {
 	if (!std::filesystem::is_directory(cd))
 	{
 		::OutputDebugString(L"Not a directory\n");
-		return;
+		throw std::runtime_error(tuindow::Util::format("directory '%s' not exists!", cd.filename().string().c_str()).c_str());
 	}
 	try 
 	{

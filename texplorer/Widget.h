@@ -28,6 +28,10 @@ namespace tuindow
 		{
 			this->RenderImpl();
 		}
+		void Refresh()
+		{
+			this->RefreshImpl();
+		}
 		void SetRect(RECT rect)
 		{
 			this->SetRectImpl(rect);
@@ -60,6 +64,7 @@ namespace tuindow
 	protected:
 		Widget() = default;
 		virtual void RenderImpl() = 0;
+		virtual void RefreshImpl() = 0;
 		virtual void SetRectImpl(RECT rect) = 0;
 		virtual RECT GetRectImpl() = 0;
 		virtual void SetScreenImpl(Screen* screen) = 0;

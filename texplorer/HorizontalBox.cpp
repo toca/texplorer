@@ -8,6 +8,14 @@ void tuindow::HorizontalBox::RenderImpl()
 	}
 }
 
+void tuindow::HorizontalBox::RefreshImpl()
+{
+	for (auto child : this->children)
+	{
+		child->Refresh();
+	}
+}
+
 void tuindow::HorizontalBox::SetRectImpl(RECT rect)
 {
 	this->rect = rect;

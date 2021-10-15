@@ -2,6 +2,7 @@
 #include "Controller.h"
 #include "Address.h"
 #include "CurrentDir.h"
+#include "Notification.h"
 
 #include "VerticalBox.h"
 #include "HorizontalBox.h"
@@ -12,12 +13,13 @@
 #include "Border.h"
 #include "CharacterWidth.h"
 
-View::View(Controller* controller, std::shared_ptr<Address> address, std::shared_ptr<CurrentDir> dir)
+View::View(Controller* controller, std::shared_ptr<Address> address, std::shared_ptr<CurrentDir> dir, std::shared_ptr<Notification> notification)
 	:controller(controller)
 	,tuindow(std::make_unique<tuindow::Tuindow>())
 	,addressLabel(std::make_shared<tuindow::Label>(L"", tuindow::Placement{ 1, 1, false, true }, std::make_shared<tuindow::Style>(tuindow::Color::WHITE, tuindow::Color::BLUE)))
 	,address(address)
 	,curDir(dir)
+	,notification(notification)
 {
 	// container
 	auto vbox = std::make_shared<tuindow::VerticalBox>();
@@ -35,7 +37,7 @@ View::View(Controller* controller, std::shared_ptr<Address> address, std::shared
 	vbox->Push(hbox);
 
 	// item list
- 	auto border  = std::make_shared<tuindow::Border>(L"|", L"", L"|", L"-", L"", L"", L"+", L"+");
+	auto border  = std::make_shared<tuindow::Border>(L"|", L"", L"|", L"-", L"", L"", L"+", L"+");
 	auto itemBox = std::make_shared<tuindow::HorizontalBox>();
 	border->Put(itemBox);
 	this->items = std::make_shared<tuindow::SelectableList>();
@@ -68,6 +70,44 @@ void View::Show()
 void View::Close()
 {
 	this->tuindow->Close();
+}
+
+void View::OnNotificationChanged()
+{
+	if (!this->notification->ErrorOccurred())
+	{
+		this->tuindow->Popdown();
+		return;
+	}
+	auto message = this->notification->Message();
+	auto width = uint32_t(message.length() + 4 - sizeof('\0'));
+	auto vbox = std::make_shared<tuindow::VerticalBox>(tuindow::Placement{ width, 5, true, true });
+
+	std::wstring labelText = L"+- Error " + std::wstring(width - 10, L'-') + L"+";
+	auto label = std::make_shared<tuindow::Label>(labelText, tuindow::Placement{ width, 1, true, true }, tuindow::Style::Default()->Background(tuindow::Color::BLUE));
+	vbox->Push(label);
+
+	std::wstring marginText = L"|" + std::wstring(width - 2, L' ') + L"|";
+	auto margin1 = std::make_shared<tuindow::Label>(marginText, tuindow::Placement{ width, 1, true, true }, tuindow::Style::Default()->Background(tuindow::Color::BLUE));
+	vbox->Push(margin1);
+
+	std::wstring messageLine(L"| " + message + L" |");
+
+	auto content = std::make_shared<tuindow::Label>(
+		messageLine,
+		tuindow::Placement{ uint32_t(message.size()), 1, true, true },
+		tuindow::Style::Default()->Background(tuindow::Color::BLUE)
+	);
+	vbox->Push(content);
+
+	auto margin2 = std::make_shared<tuindow::Label>(marginText, tuindow::Placement{ width, 1, true, true }, tuindow::Style::Default()->Background(tuindow::Color::BLUE));
+	vbox->Push(margin2);
+
+	std::wstring bottomLine(L"+" + std::wstring(width - 2, L'-') + L"+");
+	auto bottom = std::make_shared<tuindow::Label>(bottomLine, tuindow::Placement{ width, 1, true, true }, tuindow::Style::Default()->Background(tuindow::Color::BLUE));
+	vbox->Push(bottom);
+
+	this->tuindow->Popup(vbox);
 }
 
 void View::OnAddressChanged()

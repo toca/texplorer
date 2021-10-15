@@ -59,6 +59,30 @@ namespace tuindow
 		this->widget = widget;
 	}
 
+	void Tuindow::Popup(std::shared_ptr<Widget> widget)
+	{
+		// TODO check fixed size
+		this->popup = widget;
+		this->popup->SetScreen(this->screen.get());
+		auto hspace = this->screen->Col() - widget->FixedWidth();
+		auto vspace = this->screen->Row() - widget->FixedHeight();
+		this->popup->SetRect({
+			long(hspace / 2),
+			long(vspace / 2),
+			long(hspace / 2) + widget->FixedWidth(),
+			long(vspace / 2) + widget->FixedHeight()
+		});
+	}
+
+	void Tuindow::Popdown()
+	{
+		if (this->popup)
+		{
+			this->popup.reset();
+			this->popup = nullptr;
+			this->widget->Refresh();
+		}
+	}
 
 	void Tuindow::AddKeyEventListener(KeyEventListener listener)
 	{
@@ -77,6 +101,16 @@ namespace tuindow
 				long(this->screen->Col()),
 				long(this->screen->Row())
 			});
+			auto popW = popup->FixedWidth();
+			auto popH = popup->FixedHeight();
+			auto hspace = this->screen->Col() - popW;
+			auto vspace = this->screen->Row() - popH;
+			this->popup->SetRect({
+				long(hspace / 2),
+				long(vspace / 2),
+				long(hspace / 2) + popW,
+				long(vspace / 2) + popH
+			});
 		}
 		if (screenEvent.HasKeyEvent)
 		{
@@ -90,6 +124,10 @@ namespace tuindow
 	void Tuindow::Render()
 	{
 		this->widget->Render();
+		if (this->popup)
+		{
+			this->popup->Render();
+		}
 		this->screen->Show();
 	}
 

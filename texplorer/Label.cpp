@@ -53,6 +53,11 @@ void tuindow::Label::RenderImpl()
     this->updated = false;
 }
 
+void tuindow::Label::RefreshImpl()
+{
+    this->updated = true;
+}
+
 void tuindow::Label::SetRectImpl(RECT rect)
 {
     this->rect = rect;

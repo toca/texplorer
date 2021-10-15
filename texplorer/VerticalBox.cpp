@@ -1,10 +1,27 @@
 #include "VerticalBox.h"
 
+tuindow::VerticalBox::VerticalBox(Placement place)
+	: placement(place)
+{
+}
+
+tuindow::VerticalBox::VerticalBox()
+{
+}
+
 void tuindow::VerticalBox::RenderImpl()
 {
 	for (auto& child : this->children)
 	{
 		child->Render();
+	}
+}
+
+void tuindow::VerticalBox::RefreshImpl()
+{
+	for (auto child : this->children)
+	{
+		child->Refresh();
 	}
 }
 

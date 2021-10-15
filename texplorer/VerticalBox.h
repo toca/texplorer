@@ -8,7 +8,10 @@ namespace tuindow
     class VerticalBox : public Widget
     {
      public:
+        VerticalBox(Placement place);
+        VerticalBox();
         void RenderImpl() override;
+        void RefreshImpl() override;
         void SetRectImpl(RECT rect) override;
         RECT GetRectImpl() override;
         void SetScreenImpl(Screen* screen) override;
@@ -22,8 +25,8 @@ namespace tuindow
     private:
         void Arrange();
         std::vector<std::shared_ptr<Widget>> children;
-        RECT rect;
-        Screen* screen;
+        RECT rect = { 0, 0, 0, 0 };
+        Screen* screen = nullptr;
         Placement placement = { 1, 1, false, false };
     };
 }

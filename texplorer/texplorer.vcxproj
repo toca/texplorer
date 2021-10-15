@@ -154,6 +154,7 @@
     <ClCompile Include="DirectoryItemSize.cpp" />
     <ClCompile Include="HorizontalBox.cpp" />
     <ClCompile Include="Label.cpp" />
+    <ClCompile Include="Notification.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SelectableList.cpp" />
     <ClCompile Include="texplorer.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="DirectoryItemSize.h" />
     <ClInclude Include="HorizontalBox.h" />
     <ClInclude Include="Label.h" />
+    <ClInclude Include="Notification.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SelectableList.h" />
     <ClInclude Include="Tuindow.h" />

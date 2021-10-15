@@ -18,6 +18,7 @@ namespace tuindow
 		explicit Label(const std::wstring& text, Placement placement, std::shared_ptr<Style> style);
 
 		void RenderImpl() override;
+		void RefreshImpl() override;
 		void SetRectImpl(RECT rect) override;
 		RECT GetRectImpl() override;
 		void SetScreenImpl(Screen* screen) override;

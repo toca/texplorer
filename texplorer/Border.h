@@ -15,6 +15,7 @@ namespace tuindow
     public:
         Border(std::wstring left, std::wstring top, std::wstring right, std::wstring bottom, std::wstring topLeft, std::wstring topRight, std::wstring bottomLeft, std::wstring bottomRight);
         void RenderImpl() override;
+        void RefreshImpl() override;
         void SetRectImpl(RECT rect) override;
         RECT GetRectImpl() override;
         void SetScreenImpl(Screen* screen) override;

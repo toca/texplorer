@@ -6,7 +6,7 @@
 // proto
 class Address;
 class CurrentDir;
-
+class Notification;
 
 class Controller
 {
@@ -23,4 +23,5 @@ private:
 	std::unique_ptr<View> view;
 	std::shared_ptr<Address> address;
 	std::shared_ptr<CurrentDir> currentDir;
+	std::shared_ptr<Notification> notification;
 };

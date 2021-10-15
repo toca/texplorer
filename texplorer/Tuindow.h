@@ -21,6 +21,8 @@ namespace tuindow
 		void SetCursor(short x, short y);
 
 		void Put(std::shared_ptr<Widget> widget);
+		void Popup(std::shared_ptr<Widget> widget);
+		void Popdown();
 
 		void AddKeyEventListener(KeyEventListener listener);
 	private:
@@ -28,6 +30,7 @@ namespace tuindow
 		std::thread loopThread;
 		std::unique_ptr<Screen> screen;
 		std::shared_ptr<Widget> widget;
+		std::shared_ptr<Widget> popup;
 		std::vector <KeyEventListener> keyEventListeners;
 		bool stop;
 		void Read();

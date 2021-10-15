@@ -2,6 +2,7 @@
 #include "View.h"
 #include "Address.h"
 #include "CurrentDir.h"
+#include "Notification.h"
 
 Controller::Controller()
 {
@@ -9,14 +10,18 @@ Controller::Controller()
 	// add key event Listener self
 	this->address = std::make_shared<Address>();
 	this->currentDir = std::make_shared<CurrentDir>();
+	this->notification = std::make_shared<Notification>();
 
-	this->view = std::make_unique<View>(this, address, currentDir);
+	this->view = std::make_unique<View>(this, address, currentDir, notification);
 	this->address->SetOnChanged([this]() {
 		this->view->OnAddressChanged();
 	});
 	this->currentDir->SetOnChanged([this]() {
 		this->view->OnItemChanged();
 		this->address->Set(this->currentDir->Absolute());
+	});
+	this->notification->SetSubscriber([this]() {
+		this->view->OnNotificationChanged();
 	});
 }
 
@@ -34,7 +39,11 @@ void Controller::Stop()
 
 void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 {
-	if (keyEvent.bKeyDown)
+	if (!keyEvent.bKeyDown)
+	{
+		return;
+	}
+	try
 	{
 		//std::wstring msg(L"key event: ");
 		//msg += std::to_wstring(keyEvent.wVirtualKeyCode) + L"\n";
@@ -45,7 +54,17 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 			this->address->Chop();
 			break;
 		case VK_RETURN:
-			this->currentDir->Change(this->address->Get());
+			if (this->notification->ErrorOccurred())
+			{
+				this->notification->Clear();
+			}
+			else
+			{
+				this->currentDir->Change(this->address->Get());
+			}
+			break;
+		case VK_SPACE:
+			this->notification->Clear();
 			break;
 		case VK_UP:
 			this->view->Up();
@@ -96,6 +115,13 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 			}
 			break;
 		}
+	}
+	catch (std::exception& ex)
+	{
+		auto bufSize = ::MultiByteToWideChar(CP_ACP, 0, ex.what(), -1, nullptr, 0);
+		std::wstring message(bufSize, L'\0');
+		::MultiByteToWideChar(CP_ACP, 0, ex.what(), -1, message.data(), bufSize);
+		this->notification->OnError(message);
 	}
 }
 

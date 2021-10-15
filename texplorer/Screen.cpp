@@ -81,7 +81,8 @@ namespace tuindow
 
 	void Screen::Clear()
 	{
-
+		// TODO
+		updated = true;
 	}
 
 	void Screen::Close()

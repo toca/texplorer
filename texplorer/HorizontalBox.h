@@ -10,6 +10,7 @@ namespace tuindow
     {
     public:
         void RenderImpl() override;
+        void RefreshImpl() override;
         void SetRectImpl(RECT rect) override;
         RECT GetRectImpl() override;
         void SetScreenImpl(Screen* screen) override;
