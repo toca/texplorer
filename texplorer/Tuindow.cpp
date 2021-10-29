@@ -101,16 +101,19 @@ namespace tuindow
 				long(this->screen->Col()),
 				long(this->screen->Row())
 			});
-			auto popW = popup->FixedWidth();
-			auto popH = popup->FixedHeight();
-			auto hspace = this->screen->Col() - popW;
-			auto vspace = this->screen->Row() - popH;
-			this->popup->SetRect({
-				long(hspace / 2),
-				long(vspace / 2),
-				long(hspace / 2) + popW,
-				long(vspace / 2) + popH
-			});
+			if (this->popup)
+			{
+				auto popW = popup->FixedWidth();
+				auto popH = popup->FixedHeight();
+				auto hspace = this->screen->Col() - popW;
+				auto vspace = this->screen->Row() - popH;
+				this->popup->SetRect({
+					long(hspace / 2),
+					long(vspace / 2),
+					long(hspace / 2) + popW,
+					long(vspace / 2) + popH
+					});
+			}
 		}
 		if (screenEvent.HasKeyEvent)
 		{

@@ -80,6 +80,14 @@ namespace tuindow
 	{
 		this->selected = index;
 		this->updated = true;
+		if ((this->list.size() - this->numDisplay) < this->selected)
+		{
+			this->displayBegin = this->list.size() - this->numDisplay;
+		}
+		else
+		{
+			this->displayBegin = this->selected;
+		}
 	}
 	int SelectableList::Selected()
 	{

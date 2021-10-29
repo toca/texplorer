@@ -153,10 +153,12 @@
     <ClCompile Include="DirectoryItemDate.cpp" />
     <ClCompile Include="DirectoryItemSize.cpp" />
     <ClCompile Include="HorizontalBox.cpp" />
+    <ClCompile Include="Jumper.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Notification.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SelectableList.cpp" />
+    <ClCompile Include="Spacer.cpp" />
     <ClCompile Include="texplorer.cpp" />
     <ClCompile Include="Tuindow.cpp" />
     <ClCompile Include="VerticalBox.cpp" />
@@ -174,10 +176,12 @@
     <ClInclude Include="DirectoryItemDate.h" />
     <ClInclude Include="DirectoryItemSize.h" />
     <ClInclude Include="HorizontalBox.h" />
+    <ClInclude Include="Jumper.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Notification.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SelectableList.h" />
+    <ClInclude Include="Spacer.h" />
     <ClInclude Include="Tuindow.h" />
     <ClInclude Include="VerticalBox.h" />
     <ClInclude Include="View.h" />

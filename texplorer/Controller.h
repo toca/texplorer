@@ -7,6 +7,7 @@
 class Address;
 class CurrentDir;
 class Notification;
+class Jumper;
 
 class Controller
 {
@@ -24,4 +25,5 @@ private:
 	std::shared_ptr<Address> address;
 	std::shared_ptr<CurrentDir> currentDir;
 	std::shared_ptr<Notification> notification;
+	std::shared_ptr<Jumper> jumper;
 };

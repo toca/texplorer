@@ -3,6 +3,7 @@
 #include "Address.h"
 #include "CurrentDir.h"
 #include "Notification.h"
+#include "Jumper.h"
 
 #include "VerticalBox.h"
 #include "HorizontalBox.h"
@@ -12,14 +13,17 @@
 #include "DirectoryItemDate.h"
 #include "Border.h"
 #include "CharacterWidth.h"
+#include "Spacer.h"
 
-View::View(Controller* controller, std::shared_ptr<Address> address, std::shared_ptr<CurrentDir> dir, std::shared_ptr<Notification> notification)
+
+View::View(Controller* controller, std::shared_ptr<Address> address, std::shared_ptr<CurrentDir> dir, std::shared_ptr<Notification> notification, std::shared_ptr<Jumper> jumper)
 	:controller(controller)
 	,tuindow(std::make_unique<tuindow::Tuindow>())
 	,addressLabel(std::make_shared<tuindow::Label>(L"", tuindow::Placement{ 1, 1, false, true }, std::make_shared<tuindow::Style>(tuindow::Color::WHITE, tuindow::Color::BLUE)))
 	,address(address)
 	,curDir(dir)
 	,notification(notification)
+	,jumper(jumper)
 {
 	// container
 	auto vbox = std::make_shared<tuindow::VerticalBox>();
@@ -48,6 +52,7 @@ View::View(Controller* controller, std::shared_ptr<Address> address, std::shared
 	itemBox->Push(this->dates);
 	vbox->Push(border);
 
+	// operation
 	auto man = std::make_shared<tuindow::Label>(
 		L"Select[⇅ ] UpDir[←] IntoDir[→] RUN CMD[Esc] Open[^O] SortName[^N] SortSize[^S] SortDate:[^D] End:[^C]", 
 		tuindow::Placement{ 1, 1, false, true }, 
@@ -55,6 +60,21 @@ View::View(Controller* controller, std::shared_ptr<Address> address, std::shared
 	);
 	vbox->Push(man);
 
+	// status
+	auto statusBox = std::make_shared<tuindow::HorizontalBox>();
+
+	this->jumpMessage = std::make_shared<tuindow::Label>(this->jumper->Message(),
+		tuindow::Placement{ 1, 1, false, true },
+		tuindow::Style::Default()
+	);
+	statusBox->Push(this->jumpMessage);
+
+	auto statusSpace = std::make_shared<tuindow::Spacer>(tuindow::Placement{ 1, 1, false, true }, tuindow::Style::Default());
+	statusBox->Push(statusSpace);
+
+	this->number = std::make_shared<tuindow::Label>(L"", tuindow::Placement{ 12, 1, true, true }, tuindow::Style::Default());
+	statusBox->Push(this->number);
+	vbox->Push(statusBox);
 
 	this->tuindow->Put(vbox);
 	this->tuindow->AddKeyEventListener([this](auto keyEvent) {
@@ -124,7 +144,8 @@ void View::OnItemChanged()
 	std::vector<std::shared_ptr<tuindow::SelectableListItem>> itemList;
 	std::vector<std::shared_ptr<tuindow::SelectableListItem>> sizeList;
 	std::vector<std::shared_ptr<tuindow::SelectableListItem>> dateList;
-	for (auto item : this->curDir->GetItems())
+	auto entories = this->curDir->GetItems();
+	for (auto item : entories)
 	{
 		itemList.push_back(std::make_shared<DirectoryItem>(item));
 		sizeList.push_back(std::make_shared<DirectoryItemSize>(item));
@@ -133,6 +154,9 @@ void View::OnItemChanged()
 	this->items->Set(itemList);
 	this->sizes->Set(sizeList);
 	this->dates->Set(dateList);
+
+	this->itemCount = entories.size();
+	this->OnStateChanged();
 }
 
 void View::Up()
@@ -140,6 +164,7 @@ void View::Up()
 	this->items->Up();
 	this->sizes->Up();
 	this->dates->Up();
+	this->OnStateChanged();
 }
 
 void View::Down()
@@ -147,6 +172,7 @@ void View::Down()
 	this->items->Down();
 	this->sizes->Down();
 	this->dates->Down();
+	this->OnStateChanged();
 }
 
 int View::Selected()
@@ -159,9 +185,18 @@ void View::Select(int index)
 	this->items->Select(index);
 	this->sizes->Select(index);
 	this->dates->Select(index);
+	this->OnStateChanged();
 }
 
 void View::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 {
 	this->controller->OnKeyEvent(keyEvent);
+}
+
+void View::OnStateChanged()
+{
+	std::wstring numText = tuindow::Util::format(L"%d/%d", this->items->Selected() + 1, this->itemCount);
+	std::wstring space(11 - numText.length(), L' ');
+	this->number->Set(space + numText);
+	this->jumpMessage->Set(this->jumper->Message());
 }

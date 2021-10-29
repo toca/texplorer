@@ -1,8 +1,10 @@
 #include "Controller.h"
+#include <cwctype>
 #include "View.h"
 #include "Address.h"
 #include "CurrentDir.h"
 #include "Notification.h"
+#include "Jumper.h"
 
 Controller::Controller()
 {
@@ -11,8 +13,9 @@ Controller::Controller()
 	this->address = std::make_shared<Address>();
 	this->currentDir = std::make_shared<CurrentDir>();
 	this->notification = std::make_shared<Notification>();
+	this->jumper = std::make_shared<Jumper>();
 
-	this->view = std::make_unique<View>(this, address, currentDir, notification);
+	this->view = std::make_unique<View>(this, address, currentDir, notification, jumper);
 	this->address->SetOnChanged([this]() {
 		this->view->OnAddressChanged();
 	});
@@ -22,6 +25,9 @@ Controller::Controller()
 	});
 	this->notification->SetSubscriber([this]() {
 		this->view->OnNotificationChanged();
+	});
+	this->jumper->AddSubscriber([this]() {
+		this->view->OnStateChanged();
 	});
 }
 
@@ -78,7 +84,7 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 			break;
 		case VK_RIGHT:
 			this->currentDir->Into(this->view->Selected());
-			this->view->Select(0); this->view->Select(0);
+			this->view->Select(0);
 			break;
 		case VK_ESCAPE:
 			this->Stop();
@@ -89,7 +95,15 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 		default:
 			if (keyEvent.uChar.UnicodeChar != L'\0')
 			{
-				this->address->AddInput(keyEvent.uChar.UnicodeChar);
+				if (this->jumper->Crouching())
+				{
+					auto index = this->jumper->Find(keyEvent.uChar.UnicodeChar, this->currentDir->GetItems());
+					this->view->Select(index);
+				}
+				else
+				{
+					this->address->AddInput(keyEvent.uChar.UnicodeChar);
+				}
 			}
 			// open
 			if (this->pressedWithCtrl(L'o', keyEvent))
@@ -113,6 +127,11 @@ void Controller::OnKeyEvent(KEY_EVENT_RECORD keyEvent)
 			{
 				this->currentDir->SortSize();
 			}
+			// jump
+			if (this->pressedWithCtrl(L'g', keyEvent))
+			{
+				this->jumper->Ready();
+			}
 			break;
 		}
 	}
@@ -132,11 +151,12 @@ std::wstring Controller::GetCurrentDir()
 
 bool Controller::pressedWithCtrl(wchar_t key, const KEY_EVENT_RECORD& keyEvent)
 {
-	static const WORD VK_A = 0x41;
-	WORD keyCode = VK_A + (key - L'a');
+	wchar_t upperKey = std::towupper(key);
+	// capital letter == virtual key code
+	//static const WORD VK_A = 0x41; //WORD keyCode = VK_A + (key - L'a');
 	if ((keyEvent.dwControlKeyState & LEFT_CTRL_PRESSED) || (keyEvent.dwControlKeyState & RIGHT_CTRL_PRESSED))
 	{
-		if (keyCode == keyEvent.wVirtualKeyCode)
+		if (upperKey == keyEvent.wVirtualKeyCode)
 		{
 			return true;
 		}
