@@ -25,6 +25,8 @@ View::View(Controller* controller, std::shared_ptr<Address> address, std::shared
 	,notification(notification)
 	,jumper(jumper)
 {
+	//title
+	::SetConsoleTitleW(L"Texplorer");
 	// container
 	auto vbox = std::make_shared<tuindow::VerticalBox>();
 

@@ -80,13 +80,20 @@ namespace tuindow
 	{
 		this->selected = index;
 		this->updated = true;
-		if ((this->list.size() - this->numDisplay) < this->selected)
+		if (int64_t(this->selected) + 1 <= this->numDisplay) 
 		{
-			this->displayBegin = this->list.size() - this->numDisplay;
+			this->displayBegin = 0;
 		}
 		else
 		{
-			this->displayBegin = this->selected;
+			if (this->list.size() - this->numDisplay <= this->selected) 
+			{
+				this->displayBegin = this->list.size() - this->numDisplay;
+			}
+			else
+			{
+				this->displayBegin = this->selected;
+			}
 		}
 	}
 	int SelectableList::Selected()
@@ -100,11 +107,11 @@ namespace tuindow
 		if (int64_t(this->selected) - 1 < 0)
 		{
 			this->selected = this->list.size() - 1;
-			this->displayBegin = max(0, this->selected+1 - this->numDisplay);
+			this->displayBegin = max(0, int64_t(this->selected) + 1 - this->numDisplay);
 		}
 		else
 		{
-			if (this->selected - 1 < this->displayBegin)
+			if (int64_t(this->selected) - 1 < this->displayBegin)
 			{
 				this->displayBegin--;
 			}
@@ -115,14 +122,14 @@ namespace tuindow
 	void SelectableList::Down()
 	{
 		this->updated = true;
-		if (int64_t(this->list.size()) <= this->selected + 1)
+		if (int64_t(this->list.size()) <= int64_t(this->selected) + 1)
 		{
 			this->selected = 0;
 			this->displayBegin = 0;
 		}
 		else
 		{
-			if (this->displayBegin + this->numDisplay - 1 < this->selected + 1)
+			if (this->displayBegin + this->numDisplay - 1 < int64_t(this->selected) + 1)
 			{
 				this->displayBegin++;
 			}
@@ -134,7 +141,7 @@ namespace tuindow
 	{
 		this->updated = true;
 
-		this->numDisplay = int64_t(this->rect.bottom - this->rect.top);
+		this->numDisplay = int64_t(this->rect.bottom) - int64_t(this->rect.top);
 		this->displayBegin = 0;
 		
 		this->Clear();
